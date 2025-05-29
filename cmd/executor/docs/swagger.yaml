@@ -1,0 +1,768 @@
+basePath: /api/v1
+definitions:
+  dto.CreatePollRequest:
+    properties:
+      title:
+        type: string
+    required:
+    - title
+    type: object
+  dto.CreateTagRequest:
+    properties:
+      email:
+        type: string
+    type: object
+  dto.CreateUserRequest:
+    properties:
+      email:
+        type: string
+    type: object
+  dto.Poll:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  dto.Tag:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  dto.UpdatePollRequest:
+    properties:
+      title:
+        type: string
+    required:
+    - title
+    type: object
+  dto.UpdateTagRequest:
+    properties:
+      email:
+        type: string
+    type: object
+  dto.UpdateUserRequest:
+    properties:
+      email:
+        type: string
+    type: object
+  dto.User:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  response.ErrSwaggerResponse:
+    properties:
+      meta:
+        properties:
+          causes:
+            items: {}
+            type: array
+          code:
+            type: integer
+          message:
+            type: string
+        type: object
+      payload:
+        additionalProperties: true
+        type: object
+    type: object
+  response.ErrValidationSwaggerResponse:
+    properties:
+      meta:
+        properties:
+          causes:
+            items:
+              properties:
+                field:
+                  type: string
+                message:
+                  type: string
+              type: object
+            type: array
+          code:
+            type: integer
+          message:
+            type: string
+        type: object
+      payload:
+        additionalProperties: true
+        type: object
+    type: object
+info:
+  contact:
+    name: Hichapp
+    url: https://swagger.io/support
+  termsOfService: http://swagger.io/terms/
+paths:
+  /polls:
+    post:
+      consumes:
+      - application/json
+      description: This api for create poll
+      parameters:
+      - description: Contains information to set data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreatePollRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.Poll'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Create Poll
+      tags:
+      - polls
+  /polls/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api for delete poll
+      parameters:
+      - description: Poll Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Delete Poll
+      tags:
+      - polls
+    get:
+      consumes:
+      - application/json
+      description: This api for poll by id
+      parameters:
+      - description: Poll Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Poll'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Get Poll By Id
+      tags:
+      - polls
+    put:
+      consumes:
+      - application/json
+      description: This api for update poll
+      parameters:
+      - description: Poll Id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Contains information to set data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdatePollRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Poll'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Update Poll
+      tags:
+      - polls
+  /polls/purge/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api for purge poll
+      parameters:
+      - description: Poll Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Purge Poll
+      tags:
+      - polls
+  /tags:
+    post:
+      consumes:
+      - application/json
+      description: This api for create tag
+      parameters:
+      - description: Contains information to set data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateTagRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.Tag'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Create Tag
+      tags:
+      - tags
+  /tags/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api for delete tag
+      parameters:
+      - description: Tag Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Delete Tag
+      tags:
+      - tags
+    get:
+      consumes:
+      - application/json
+      description: This api for tag by id
+      parameters:
+      - description: Tag Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Tag'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Get Tag By Id
+      tags:
+      - tags
+    put:
+      consumes:
+      - application/json
+      description: This api for update tag
+      parameters:
+      - description: Tag Id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Contains information to set data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateTagRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Tag'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Update Tag
+      tags:
+      - tags
+  /tags/purge/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api for purge tag
+      parameters:
+      - description: Tag Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Purge Tag
+      tags:
+      - tags
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: This api for create vote
+      parameters:
+      - description: Contains information to set data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Create User
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api for delete vote
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Delete User
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: This api for vote by id
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Get User By Id
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: This api for update vote
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Contains information to set data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Update User
+      tags:
+      - users
+  /users/purge/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api for purge vote
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrValidationSwaggerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrSwaggerResponse'
+      security:
+      - Bearer: []
+      summary: Purge User
+      tags:
+      - users
+securityDefinitions:
+  Bearer:
+    description: '"Type ''Bearer TOKEN'' to correctly set the Authorization Bearer"'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
