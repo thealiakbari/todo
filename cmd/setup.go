@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"context"
-	coreEnum "github.com/thealiakbari/hichapp/pkg/core/enum"
 
 	pollApp "github.com/thealiakbari/hichapp/app/poll/service"
 	tagApp "github.com/thealiakbari/hichapp/app/tag/service"
@@ -19,6 +18,8 @@ import (
 	"github.com/thealiakbari/hichapp/pkg/common/kafka"
 	"github.com/thealiakbari/hichapp/pkg/common/logger"
 	"github.com/thealiakbari/hichapp/pkg/common/store"
+	coreEnum "github.com/thealiakbari/hichapp/pkg/core/enum"
+	voteEdaAdaptor "github.com/thealiakbari/hichapp/pkg/infrastructure/ports/in_bounds/eda/vote"
 	pollHttpAdaptor "github.com/thealiakbari/hichapp/pkg/infrastructure/ports/in_bounds/http/poll"
 	tagHttpAdaptor "github.com/thealiakbari/hichapp/pkg/infrastructure/ports/in_bounds/http/tag"
 	userHttpAdaptor "github.com/thealiakbari/hichapp/pkg/infrastructure/ports/in_bounds/http/user"
@@ -197,6 +198,6 @@ func NewConsumerStorage(
 	services ServiceStorage,
 ) ConsumerStorage {
 	return ConsumerStorage{
-		//PollConsumers: pollApp.(services.userSvc, log, db),
+		PollConsumers: voteEdaAdaptor.NewAdaptor(services.pollSvc, log, db),
 	}
 }

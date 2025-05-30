@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"gorm.io/gorm"
 
 	"github.com/ThreeDotsLabs/watermill/message"
 	"github.com/thealiakbari/hichapp/app/poll/domain/dto"
@@ -12,6 +11,7 @@ import (
 	"github.com/thealiakbari/hichapp/pkg/common/db"
 	"github.com/thealiakbari/hichapp/pkg/common/logger"
 	appErr "github.com/thealiakbari/hichapp/pkg/common/response"
+	"gorm.io/gorm"
 )
 
 type consumer struct {

@@ -688,7 +688,7 @@
                         "Bearer": []
                     }
                 ],
-                "description": "This api for create user",
+                "description": "This api for create vote",
                 "consumes": [
                     "application/json"
                 ],
@@ -757,7 +757,7 @@
                         "Bearer": []
                     }
                 ],
-                "description": "This api for purge user",
+                "description": "This api for purge vote",
                 "consumes": [
                     "application/json"
                 ],
@@ -821,7 +821,7 @@
                         "Bearer": []
                     }
                 ],
-                "description": "This api for user by id",
+                "description": "This api for vote by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -886,7 +886,7 @@
                         "Bearer": []
                     }
                 ],
-                "description": "This api for update user",
+                "description": "This api for update vote",
                 "consumes": [
                     "application/json"
                 ],
@@ -960,7 +960,7 @@
                         "Bearer": []
                     }
                 ],
-                "description": "This api for delete user",
+                "description": "This api for delete vote",
                 "consumes": [
                     "application/json"
                 ],
