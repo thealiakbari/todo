@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/thealiakbari/hichapp/pkg/common/validation"
+	"github.com/thealiakbari/todoapp/pkg/common/validation"
 )
 
 type SortType = string

@@ -9,9 +9,9 @@ import (
 
 	"github.com/alecthomas/chroma/v2/quick"
 	"github.com/google/uuid"
-	"github.com/thealiakbari/hichapp/pkg/common/logger"
-	"github.com/thealiakbari/hichapp/pkg/common/middleware"
-	"github.com/thealiakbari/hichapp/pkg/common/utiles"
+	"github.com/thealiakbari/todoapp/pkg/common/logger"
+	"github.com/thealiakbari/todoapp/pkg/common/middleware"
+	"github.com/thealiakbari/todoapp/pkg/common/utiles"
 	glog "gorm.io/gorm/logger"
 )
 

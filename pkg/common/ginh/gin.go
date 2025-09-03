@@ -14,10 +14,10 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/thealiakbari/hichapp/pkg/common/logger"
-	"github.com/thealiakbari/hichapp/pkg/common/middleware"
-	"github.com/thealiakbari/hichapp/pkg/common/response"
-	"github.com/thealiakbari/hichapp/pkg/common/utiles"
+	"github.com/thealiakbari/todoapp/pkg/common/logger"
+	"github.com/thealiakbari/todoapp/pkg/common/middleware"
+	"github.com/thealiakbari/todoapp/pkg/common/response"
+	"github.com/thealiakbari/todoapp/pkg/common/utiles"
 	slog "log/slog"
 )
 

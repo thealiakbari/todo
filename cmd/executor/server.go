@@ -9,10 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/thealiakbari/hichapp/cmd/executor/docs"
-	"github.com/thealiakbari/hichapp/pkg/common/config"
-	"github.com/thealiakbari/hichapp/pkg/common/ginh"
-	"github.com/thealiakbari/hichapp/pkg/common/response"
+	"github.com/thealiakbari/todoapp/cmd/executor/docs"
+	"github.com/thealiakbari/todoapp/pkg/common/config"
+	"github.com/thealiakbari/todoapp/pkg/common/ginh"
+	"github.com/thealiakbari/todoapp/pkg/common/response"
 )
 
 type Handler interface {

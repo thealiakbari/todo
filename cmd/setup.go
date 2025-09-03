@@ -2,60 +2,35 @@ package cmd
 
 import (
 	"context"
+	todoItemOutboundRepo "github.com/thealiakbari/todoapp/internal/adapters/outbound/db/pg"
+	todoItemService "github.com/thealiakbari/todoapp/internal/domain/todo"
+	todoInterface "github.com/thealiakbari/todoapp/internal/ports/inbound/todo"
+	todoItemRepo "github.com/thealiakbari/todoapp/internal/ports/outbound/todo"
 
-	pollApp "github.com/thealiakbari/hichapp/app/poll/service"
-	tagApp "github.com/thealiakbari/hichapp/app/tag/service"
-	userApp "github.com/thealiakbari/hichapp/app/user/service"
-	pollService "github.com/thealiakbari/hichapp/internal/poll"
-	pollRepo "github.com/thealiakbari/hichapp/internal/poll/domain/repository"
-	tagService "github.com/thealiakbari/hichapp/internal/tag"
-	tagRepo "github.com/thealiakbari/hichapp/internal/tag/domain/repository"
-	userService "github.com/thealiakbari/hichapp/internal/user"
-	userRepo "github.com/thealiakbari/hichapp/internal/user/domain/repository"
-	"github.com/thealiakbari/hichapp/pkg/common/config"
-	"github.com/thealiakbari/hichapp/pkg/common/db"
-	"github.com/thealiakbari/hichapp/pkg/common/i18next"
-	"github.com/thealiakbari/hichapp/pkg/common/kafka"
-	"github.com/thealiakbari/hichapp/pkg/common/logger"
-	"github.com/thealiakbari/hichapp/pkg/common/store"
-	coreEnum "github.com/thealiakbari/hichapp/pkg/core/enum"
-	voteEdaAdaptor "github.com/thealiakbari/hichapp/pkg/infrastructure/ports/in_bounds/eda/vote"
-	pollHttpAdaptor "github.com/thealiakbari/hichapp/pkg/infrastructure/ports/in_bounds/http/poll"
-	tagHttpAdaptor "github.com/thealiakbari/hichapp/pkg/infrastructure/ports/in_bounds/http/tag"
-	userHttpAdaptor "github.com/thealiakbari/hichapp/pkg/infrastructure/ports/in_bounds/http/user"
+	todoItemHttpAdaptor "github.com/thealiakbari/todoapp/internal/adapters/inbound/http/todo"
+	todoItemApp "github.com/thealiakbari/todoapp/internal/application/todo"
+
+	"github.com/thealiakbari/todoapp/pkg/common/config"
+	"github.com/thealiakbari/todoapp/pkg/common/db"
+	"github.com/thealiakbari/todoapp/pkg/common/i18next"
+	"github.com/thealiakbari/todoapp/pkg/common/logger"
 	"golang.org/x/text/language"
 )
 
 type RepositoryStorage struct {
-	pollRepo pollRepo.PollRepository
-	tagRepo  tagRepo.TagRepository
-	userRepo userRepo.UserRepository
+	todoItemRepo todoItemRepo.TodoItemRepository
 }
 
 type ServiceStorage struct {
-	userSvc userService.User
-	pollSvc pollService.Poll
-	tagSvc  tagService.Tag
+	todoItemSvc todoInterface.TodoItemService
 }
 
-type BusinessFlowStorage struct{}
-
-type HttpAppStorage struct {
-	pollApp pollApp.PollHttpApp
-	tagApp  tagApp.TagHttpApp
-	userApp userApp.UserHttpApp
+type ApplicationStorage struct {
+	todoItemApp todoItemApp.TodoItemHttpApp
 }
 
 type HttpAdaptorStorage struct {
-	UserAdaptor userHttpAdaptor.Adaptor
-	PollAdaptor pollHttpAdaptor.Adaptor
-	TagAdaptor  tagHttpAdaptor.Adaptor
-}
-
-type OutboundStorage struct{}
-
-type ConsumerStorage struct {
-	PollConsumers map[coreEnum.Topic]kafka.HandlerFn
+	TodoItemAdaptor todoItemHttpAdaptor.Adaptor
 }
 
 type SetupConfig struct {
@@ -63,20 +38,17 @@ type SetupConfig struct {
 	Conf               *config.AppConfig
 	Logger             logger.Logger
 	DB                 db.DBWrapper
-	Kafka              kafka.Kafka
-	Store              store.Store
 	HttpAdaptorStorage HttpAdaptorStorage
-	ConsumerStorage    ConsumerStorage
 }
 
 func Setup() *SetupConfig {
 	ctx := context.Background()
-	conf := config.LoadConfig("./config/hichapp.yml")
+	conf := config.LoadConfig("./config/todoapp.yml")
 
 	log, err := logger.New(
 		conf.Mode,
 		conf.ServiceName,
-		"hichapp",
+		"todoapp",
 	)
 	if err != nil {
 		panic(err)
@@ -99,105 +71,48 @@ func Setup() *SetupConfig {
 		panic(err)
 	}
 
-	storeSvc := store.New(
-		conf.DB.Redis.Address,
-		conf.DB.Redis.Password,
-		conf.DB.Redis.DB,
-		logInfra,
-	)
-	err = storeSvc.Ping(ctx)
-	if err != nil {
-		panic(err)
-	}
-
 	dbw := db.NewDBWrapper(gormDB)
 
-	kaf := kafka.NewKafka(conf.Kafka, log.CloneAsInfra(), dbw)
-
 	repos := NewRepositoryStorage(dbw)
-	services := NewServiceStorage(log, repos, dbw, conf)
-	//authInfraSvc := authInfra.NewAuthInfraHTTP(
-	//	log,
-	//	conf.Core.Auth,
-	//	storeSvc,
-	//	services.userSvc,
-	//)
+	services := NewServiceStorage(log, repos)
 
-	flows := NewBusinessFlowStorage(conf, dbw, log, storeSvc, services)
-	httpApps := NewHttpAppStorage(dbw, services, flows, log, conf)
-	httpAdaptors := NewHttpAdaptorStorage(log, dbw, httpApps)
-	consumers := NewConsumerStorage(log, dbw, services)
+	httpApps := NewHttpAppStorage(dbw, services)
+	httpAdaptors := NewHttpAdaptorStorage(httpApps)
 
 	return &SetupConfig{
 		Ctx:                ctx,
 		Conf:               conf,
 		Logger:             log,
 		DB:                 dbw,
-		Kafka:              kaf,
-		Store:              storeSvc,
 		HttpAdaptorStorage: httpAdaptors,
-		ConsumerStorage:    consumers,
 	}
 }
 
 func NewHttpAppStorage(
 	db db.DBWrapper,
 	services ServiceStorage,
-	flows BusinessFlowStorage,
-	log logger.Logger,
-	cfg *config.AppConfig,
-) HttpAppStorage {
-	return HttpAppStorage{
-		userApp: userApp.NewUserHttpApp(services.userSvc, db),
-		pollApp: pollApp.NewPollHttpApp(services.pollSvc, db),
-		tagApp:  tagApp.NewTagHttpApp(services.tagSvc, db),
+) ApplicationStorage {
+	return ApplicationStorage{
+		todoItemApp: todoItemApp.NewTodoItemHttpApp(services.todoItemSvc, db),
 	}
 }
 
 func NewRepositoryStorage(db db.DBWrapper) RepositoryStorage {
 	return RepositoryStorage{
-		userRepo: userRepo.NewUserRepository(db),
-		pollRepo: pollRepo.NewPollRepository(db),
-		tagRepo:  tagRepo.NewTagRepository(db),
+		todoItemRepo: todoItemOutboundRepo.NewTodoItemRepository(db),
 	}
 }
 
-func NewServiceStorage(log logger.Logger, repos RepositoryStorage, db db.DBWrapper, cfg *config.AppConfig) ServiceStorage {
+func NewServiceStorage(log logger.Logger, repos RepositoryStorage) ServiceStorage {
 	return ServiceStorage{
-		userSvc: userService.NewUserService(userService.UserConfig{Logger: log, UserRepo: repos.userRepo}),
-		pollSvc: pollService.NewPollService(pollService.PollConfig{Logger: log, PollRepo: repos.pollRepo}),
-		tagSvc:  tagService.NewTagService(tagService.TagConfig{Logger: log, TagRepo: repos.tagRepo}),
+		todoItemSvc: todoItemService.NewTodoItemService(todoItemService.TodoItemConfig{Logger: log, TodoItemRepo: repos.todoItemRepo}),
 	}
-}
-
-func NewBusinessFlowStorage(
-	cfg *config.AppConfig,
-	dbw db.DBWrapper,
-	log logger.Logger,
-	storeSvc store.Store,
-	services ServiceStorage,
-) BusinessFlowStorage {
-	return BusinessFlowStorage{}
 }
 
 func NewHttpAdaptorStorage(
-	log logger.Logger,
-	db db.DBWrapper,
-	httpApps HttpAppStorage,
+	httpApps ApplicationStorage,
 ) HttpAdaptorStorage {
 	return HttpAdaptorStorage{
-		PollAdaptor: pollHttpAdaptor.Adaptor{PollHttpApp: httpApps.pollApp},
-		TagAdaptor:  tagHttpAdaptor.Adaptor{TagHttpApp: httpApps.tagApp},
-		UserAdaptor: userHttpAdaptor.Adaptor{UserHttpApp: httpApps.userApp},
-	}
-}
-
-func NewConsumerStorage(
-	log logger.Logger,
-	db db.DBWrapper,
-	services ServiceStorage,
-) ConsumerStorage {
-	return ConsumerStorage{
-		PollConsumers: voteEdaAdaptor.NewAdaptor(services.pollSvc, log, db),
+		TodoItemAdaptor: todoItemHttpAdaptor.Adaptor{TodoItemHttpApp: httpApps.todoItemApp},
 	}
 }

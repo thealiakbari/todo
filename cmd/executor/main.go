@@ -9,8 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/thealiakbari/hichapp/cmd"
-	"github.com/thealiakbari/hichapp/pkg/common/kafka"
+	"github.com/thealiakbari/todoapp/cmd"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -25,9 +24,6 @@ func main() {
 
 	// NOTE: Run the http and gRPC Server
 	server := httpServer(conf)
-	registerConsumers(conf.Kafka, conf.ConsumerStorage)
-
-	go conf.Kafka.Run(ctx)
 	// Handle OS signals for graceful shutdown
 	errGroup.Go(func() error {
 		sigCh := make(chan os.Signal, 1)
@@ -58,7 +54,7 @@ func main() {
 }
 
 // @termsOfService  http://swagger.io/terms/
-// @contact.name   Hichapp
+// @contact.name   TodoAPP
 // @contact.url    https://swagger.io/support
 // @BasePath  /api/v1
 // @securityDefinitions.apikey Bearer
@@ -68,9 +64,7 @@ func main() {
 func httpServer(conf *cmd.SetupConfig) *Server {
 	server := NewServer(
 		conf.Conf,
-		conf.HttpAdaptorStorage.UserAdaptor,
-		conf.HttpAdaptorStorage.PollAdaptor,
-		conf.HttpAdaptorStorage.TagAdaptor,
+		conf.HttpAdaptorStorage.TodoItemAdaptor,
 	)
 
 	server.HealthCheck()
@@ -78,16 +72,4 @@ func httpServer(conf *cmd.SetupConfig) *Server {
 	go server.Start()
 
 	return server
-}
-
-func registerConsumers(kaf kafka.Kafka, consumerStorage cmd.ConsumerStorage) {
-	// for topic, fn := range consumerStorage.UserConsumers {
-	// 	kaf.AddHandler(topic.String(), topic.String(), fn)
-	// }
-	// for topic, fn := range consumerStorage.AssetConsumers {
-	// 	kaf.AddHandler(topic.String(), topic.String(), fn)
-	// }
-	// for topic, fn := range consumerStorage.CurrencyConsumers {
-	// 	kaf.AddHandler(topic.String(), topic.String(), fn)
-	// }
 }

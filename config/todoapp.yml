@@ -1,0 +1,27 @@
+mode: development
+service_name: todoapp
+language: en
+db:
+  postgres:
+    host: localhost
+    name: todoapp
+    port: 5432
+    username: postgres
+    password: postgres
+    driver: postgres
+    ssl: disable
+    appName: ums
+    migrations_url: file:./cmd/migration/scripts
+    transaction_timeout: 120000
+    max_idle_connection: 10
+    max_open_connection: 10
+    conn_max_lifetime: 120000
+    trace_stacks: true
+  redis:
+    address: localhost:6380
+    password:
+    db: 0
+core:
+  http:
+    address: ":1212"
+    port: 1212

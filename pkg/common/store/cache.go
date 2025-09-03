@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/redis/go-redis/v9"
-	"github.com/thealiakbari/hichapp/pkg/common/logger"
+	"github.com/thealiakbari/todoapp/pkg/common/logger"
 	"go.elastic.co/apm/v2"
 )
 

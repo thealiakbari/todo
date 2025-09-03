@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/thealiakbari/hichapp/pkg/common/logger"
+	"github.com/thealiakbari/todoapp/pkg/common/logger"
 )
 
 var (

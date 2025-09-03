@@ -8,9 +8,9 @@ import (
 	"reflect"
 
 	"github.com/google/uuid"
-	configx "github.com/thealiakbari/hichapp/pkg/common/config"
-	"github.com/thealiakbari/hichapp/pkg/common/middleware"
-	"github.com/thealiakbari/hichapp/pkg/common/utiles"
+	configx "github.com/thealiakbari/todoapp/pkg/common/config"
+	"github.com/thealiakbari/todoapp/pkg/common/middleware"
+	"github.com/thealiakbari/todoapp/pkg/common/utiles"
 )
 
 type Option func(*logger)

@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/thealiakbari/hichapp/pkg/common/request"
+	"github.com/thealiakbari/todoapp/pkg/common/request"
 )
 
 const ConvertTimeLayout = "2006-01-02 15:04:05"
