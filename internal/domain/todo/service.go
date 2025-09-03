@@ -3,10 +3,10 @@ package todo
 import (
 	"context"
 	"errors"
+
 	"github.com/thealiakbari/todoapp/internal/domain/todo/entity"
 	todoInterface "github.com/thealiakbari/todoapp/internal/ports/inbound/todo"
 	"github.com/thealiakbari/todoapp/internal/ports/outbound/todo"
-
 	"github.com/thealiakbari/todoapp/pkg/common/logger"
 	appErr "github.com/thealiakbari/todoapp/pkg/common/response"
 )

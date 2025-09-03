@@ -2,14 +2,13 @@ package cmd
 
 import (
 	"context"
+
+	todoItemHttpAdaptor "github.com/thealiakbari/todoapp/internal/adapters/inbound/http/todo"
 	todoItemOutboundRepo "github.com/thealiakbari/todoapp/internal/adapters/outbound/db/pg"
+	todoItemApp "github.com/thealiakbari/todoapp/internal/application/todo"
 	todoItemService "github.com/thealiakbari/todoapp/internal/domain/todo"
 	todoInterface "github.com/thealiakbari/todoapp/internal/ports/inbound/todo"
 	todoItemRepo "github.com/thealiakbari/todoapp/internal/ports/outbound/todo"
-
-	todoItemHttpAdaptor "github.com/thealiakbari/todoapp/internal/adapters/inbound/http/todo"
-	todoItemApp "github.com/thealiakbari/todoapp/internal/application/todo"
-
 	"github.com/thealiakbari/todoapp/pkg/common/config"
 	"github.com/thealiakbari/todoapp/pkg/common/db"
 	"github.com/thealiakbari/todoapp/pkg/common/i18next"

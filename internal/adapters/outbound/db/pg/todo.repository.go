@@ -2,9 +2,9 @@ package pg
 
 import (
 	"context"
+
 	"github.com/thealiakbari/todoapp/internal/domain/todo/entity"
 	"github.com/thealiakbari/todoapp/internal/ports/outbound/todo"
-
 	"github.com/thealiakbari/todoapp/pkg/common/db"
 )
 
