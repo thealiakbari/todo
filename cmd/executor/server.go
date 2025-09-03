@@ -52,8 +52,8 @@ func (s *Server) Start() {
 
 func (s *Server) SwaggerApi() {
 	s.router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	docs.SwaggerInfo.Title = "User Management Service"
-	docs.SwaggerInfo.Description = "User Management Service: This is a User Management service."
+	docs.SwaggerInfo.Title = "Todo APP Service"
+	docs.SwaggerInfo.Description = "Todo App Service: This is a Todo App service."
 	docs.SwaggerInfo.Version = "1.0"
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	if s.conf.Mode == config.ModeLocal {

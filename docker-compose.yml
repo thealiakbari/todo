@@ -12,7 +12,7 @@ services:
     environment:
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=todoapp_db
+      - POSTGRES_DB=todoapp
     restart: on-failure
     ports:
       - "5432:5432"
