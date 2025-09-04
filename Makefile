@@ -12,6 +12,9 @@ build:
 	go mod download
 	go build -o ./src/build ./cmd/executor
 
+run-docker:
+	docker-compose up -d
+
 run: doc
 	go run ./cmd/executor
 
