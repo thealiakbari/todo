@@ -3,13 +3,12 @@ package todo
 import (
 	"context"
 	"errors"
-	"github.com/thealiakbari/todoapp/pkg/common/logger"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-
 	"github.com/thealiakbari/todoapp/internal/domain/todo/entity"
+	"github.com/thealiakbari/todoapp/pkg/common/logger"
 	appErr "github.com/thealiakbari/todoapp/pkg/common/response"
 )
 
